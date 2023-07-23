@@ -6,15 +6,15 @@ map<string, bool> m;
 
 bool solution(vector<string> phone_book) {
     
-    for(auto i : phone_book){
-        string a = "";
-        for(int j = 0 ; j < (int)i.length()-1 ; j++){
-            a+=i[j];
-            m[a]= true; // 모든 접두어를 저장해놓음.
+    for(auto phone_num : phone_book){ 
+        string prefix = "";
+        for(int j = 0 ; j < (int)phone_num.length()-1 ; j++){
+            prefix+=phone_num[j];
+            m[prefix]= true; // 모든 접두어를 저장해놓음.
         }
     }
     
-    for(auto i : phone_book) if(m[i]) {return false;}
+    for(auto phone_num : phone_book) if(m[phone_num]) {return false;}
     
     return true;
 }
