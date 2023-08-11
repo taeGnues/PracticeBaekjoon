@@ -1,32 +1,35 @@
 #include <bits/stdc++.h>
 
 using namespace std;
-
-int n, a, b, ret;
+int n, d, p, res;
 
 vector<pair<int, int>> v;
-priority_queue<int, vector<int>, greater<int>> pq; // 최소힙
+priority_queue<int, vector<int>, greater<int>> pq; // 최소힙.
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(NULL); cout.tie(NULL);
     cin >> n;
-    for(int i = 0; i < n; i++){
-        cin >> a >> b; v.push_back({b, a});
+    for(int i = 0 ; i < n ; i++){
+        cin >> p >> d;
+        v.push_back({d, p});
     }
     
-    sort(v.begin(), v.end()); // day 순으로 정렬. 오름차순.
+    sort(v.begin(), v.end());
     
-    
-    for(int i = 0; i < n; i++){ // 0부터 오름차순으로 올라감.
-        pq.push(v[i].second); // 해당 날짜에 맞는 가격 넣기.
-        if(pq.size() > v[i].first){ // pq.size()가 해당날짜보다 크면 pop 해주기. ex) 1일 10, 1일 20, 1일 30 (size > 해당day) 이렇게 되면 최소힙이므로 1일 30만 남게됨.
-            pq.pop(); // 가장 낮은 최소 가격이 pop됨.
-        }
+    for(int i = 0 ; i < n ; i++){
+        pq.push(v[i].second);
+        while(pq.size()>v[i].first) pq.pop(); 
+        // 날짜가 1일이면 큐에 한개만남기기. (마지막에 남은 값이 바로 최대값이 됨)
     }
-    
     
     while(pq.size()){
-        ret += pq.top(); pq.pop(); // 힙에 남은 모든 가격을 합하면 답!
+        res+=pq.top();
+        pq.pop();
     }
     
-    cout << ret << "\n";
+    cout << res << '\n';
+    
+    
+    
 }
