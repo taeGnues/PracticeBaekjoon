@@ -2,25 +2,38 @@
 
 using namespace std;
 
-int chk[4000001];
 int N, res;
-vector<int> era(int mx_n){
-    vector<int> v;
-    for(int i = 2; i <= mx_n ; i++){
-        
-        if(chk[i]) continue;
-        for(int j = 2*i ; j <= mx_n; j+=i) {chk[j]=1;}
-        
-    }
-    
-    for(int i = 2; i <= mx_n ; i++){
-        if(chk[i]==0) v.push_back(i);
-    }
-    
-    return v;
-    
-} // 에라토스테네스의 체
+bool isNotPrime[4000001];
+vector<int> primes;
 
+void erasto(int n){
+    for(int i = 2 ; i < 4000001 ; i++){
+        if(isNotPrime[i]) continue;
+        for(int j = 2*i ; j < 4000001 ; j+=i){
+            isNotPrime[j]=true;
+        }
+    }
+    
+    for(int i = 2 ; i <= n ; i++) {
+        if(!isNotPrime[i]) {
+            primes.push_back(i);
+        }
+    }
+}
+
+bool check(int st, int ed){
+    int r = 0;
+    for(int i = st ; i < ed ; i++){
+        r+=primes[i];
+        if(r==N) {res++;}
+        if(r>N) {return true;}
+    }
+    
+    
+    return false;
+    
+    
+}
 
 int main(){
     ios::sync_with_stdio(false);
@@ -28,20 +41,22 @@ int main(){
     
     cin >> N;
     
-    vector<int> now_pri = era(N);
-    int sum = 0, lo=0, hi=0;
-    while(1){
-        
-        if(sum>=N) sum -= now_pri[lo++];
-        else if(hi==now_pri.size()) break;
-        else sum+=now_pri[hi++];
+    erasto(N); // 에라스토테네스 체
+    
+    int sum=0,st = 0, ed = 0;
+    
+    while(true){
+        if(sum>=N) sum -= primes[st++];
+        else if(ed==primes.size()) break;
+        else sum+=primes[ed++];
         
         if(sum==N) res++;
-        
     }
-
     
     
-    cout << res;
+    
+    cout << res << '\n';
+    
+    
     
 }
