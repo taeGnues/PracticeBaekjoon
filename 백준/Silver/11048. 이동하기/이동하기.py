@@ -1,29 +1,16 @@
 import sys
-sys.setrecursionlimit(10**5)
+input = sys.stdin.readline
 
-N, M = map(int, sys.stdin.readline().split())
-bd = [list(map(int, sys.stdin.readline().split())) for _ in range(N)]
+n, m = map(int, input().split())
 
+graph = [[0] * (m + 1) for _ in range(n + 1)]
+d = [[0] * (m + 1) for _ in range(n + 1)]
 
-dp = {}
-def go(sx, sy):
-    if sx==N-1 and sy==M-1:
-        return bd[sx][sy]
-    
-    if (sx, sy) in dp:
-        return dp[(sx, sy)]
+for i in range(1, n + 1):
+    graph[i][1:] = list(map(int, input().split()))
 
-    dp[(sx, sy)] = 0
-    for d in [(0,1), (1,0), (1,1)]:
-        nx = sx + d[0]
-        ny = sy + d[1]
+for i in range(1, n + 1):
+    for j in range(1, m + 1):
+        d[i][j] = graph[i][j] + max(d[i - 1][j], d[i][j - 1])
 
-        if nx < 0 or ny < 0 or nx >= N or ny >= M:
-            continue
-        
-        dp[(sx, sy)] = max(dp[(sx, sy)], go(nx, ny) + bd[sx][sy])
-        
-
-    return dp[(sx, sy)]
-
-print(go(0, 0))
+print(d[-1][-1])
