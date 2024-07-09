@@ -1,6 +1,6 @@
 def solution(id_list, report, k):
     
-    report_lists = {
+    report_dict = {
         id : set() for id in id_list
     }
     mail_sending_cnt = {
@@ -9,10 +9,10 @@ def solution(id_list, report, k):
     
     for r in report:
         reportId, reportedId = r.split()
-        report_lists[reportedId].add(reportId)
+        report_dict[reportedId].add(reportId)
 
     
-    for reportIds in report_lists.values():
+    for reportIds in report_dict.values():
         if len(reportIds) >= k:
             for r in reportIds:
                 mail_sending_cnt[r] += 1
