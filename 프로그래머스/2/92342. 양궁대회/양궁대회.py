@@ -28,7 +28,7 @@ def solution(n, info):
         if diff_score <= 0 or max_diff_score > diff_score : 
             return
         
-        # 예외처리 필수 !!!!
+        # 예외처리 필수 !!!! (8번, 18번테케 때문)
         if max_diff_score == diff_score:
             for i in range(10, -1, -1):
                 if answer[i] < curr[i] :
