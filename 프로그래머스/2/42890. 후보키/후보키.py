@@ -2,22 +2,17 @@ from itertools import combinations
 
 def solution(relation):
     # 후보키의 최대개수. (유일성 + 최소성)
-    
-    
-    # n개 중에 1 .. 2... 3... n개까지 뽑아서 유일성을 확인함. 
-    # 만약 한번이라도 유일성이 존재한다면, 후보키 후보가 됨.
-    # 선택한 키에, 이미 존재하는 후보키가 존재한다면? -> 최소성 불만족.
-    
     fields = [i for i in range(len(relation[0]))]
     alter_keys = []
     def check_min(c):
-            # 1. 최소성 확인 (특정 키의 부분집합인지 확인.)
-            for key in alter_keys:
-                if key.issubset(c):
-                    return False
-            return True
-    
-    def check_unique(c):
+        # 1. 최소성 확인 (특정 키의 부분집합인지 확인.)
+        for key in alter_keys:
+            if (key&c)==key:
+                return False
+        return True
+
+    def check_unique(c): 
+        # 2. 유일성 확인 (중복 레코드 확인)
         dic = {}
         for r in relation:
             k = ''
